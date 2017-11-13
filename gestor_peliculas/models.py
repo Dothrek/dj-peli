@@ -11,7 +11,7 @@ class Actor(models.Model):
         return self.nombre
 
     def to_api_reference(self):
-        return  {"id": self.pk, "name": self.nombre}
+        return  {"id": self.pk, "nombre": self.nombre}
 
 class Pelicula(models.Model):
     titulo = models.CharField(max_length=50)
@@ -31,4 +31,4 @@ class Pelicula(models.Model):
         }
 
     def to_api_reference(self):
-        return  {"id": self.pk, "tiulo": self.titulo}
+        return  {"id": self.pk, "titulo": self.titulo}
