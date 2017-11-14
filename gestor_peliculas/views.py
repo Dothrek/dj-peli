@@ -13,3 +13,10 @@ def pelis(request):
         pelis = []
         error = True
     return JsonResponse({"data":pelis, "err":error}, safe=False)
+
+def actores(request):
+    actores = Actor.objects.all()
+
+    json_actores = list(map(lambda x : x.to_api_obj(), actores))
+
+    return JsonResponse(json_actores, safe=False)
