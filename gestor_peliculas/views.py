@@ -5,6 +5,11 @@ from .models import Pelicula, Actor
 def pelis(request):
     peliculas = Pelicula.objects.prefetch_related('actores')
 
-    pelis = list(map(lambda x : x.to_api_obj(), peliculas))
-
-    return JsonResponse(pelis, safe=False)
+    try:
+        pelis = list(map(lambda x : x.to_api_obj(), peliculas))
+        error = False
+    except Exception as e:
+        print(e)
+        pelis = []
+        error = True
+    return JsonResponse({"data":pelis, "err":error}, safe=False)
