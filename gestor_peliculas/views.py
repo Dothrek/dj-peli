@@ -9,7 +9,6 @@ def pelis(request):
         pelis = list(map(lambda x : x.to_api_obj(), peliculas))
         error = False
     except Exception as e:
-        print(e)
         pelis = []
         error = True
     return JsonResponse({"data":pelis, "err":error}, safe=False)
@@ -17,6 +16,10 @@ def pelis(request):
 def actores(request):
     actores = Actor.objects.all()
 
-    json_actores = list(map(lambda x : x.to_api_obj(), actores))
-
-    return JsonResponse(json_actores, safe=False)
+    try:
+        json_actores = list(map(lambda x : x.to_api_obj(), actores))
+        error = False
+    except Exception as e:
+        json_actores = []
+        error = True
+    return JsonResponse({"data":json_actores, "err":error}, safe=False)
