@@ -11,6 +11,7 @@ class Pelicula(models.Model):
 
     def to_api_obj(self):
         return {
+            "id": self.pk,
             "titulo": self.titulo,
             "imagen": self.imagen,
             "descripcion": self.descripcion,
@@ -31,6 +32,7 @@ class Actor(models.Model):
 
     def to_api_obj(self):
         return {
+            "id": self.pk,
             "nombre": self.nombre,
             "fecha_nac": self.fecha_nac,
             "foto": self.foto,
