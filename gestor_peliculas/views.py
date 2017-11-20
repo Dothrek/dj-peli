@@ -1,21 +1,25 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.core import serializers
-import json
+from django.http import JsonResponse
 
 from .models import Pelicula, Actor
 
 def pelis(request):
-    datos = serializers.serialize("json", Pelicula.objects.all())
-    #   array_datos = json.loads(datos)
-    # new_array_datos = []
-    # for elem in array_datos:
-    #     new_array_datos.append(elem["fields"])
+    peliculas = Pelicula.objects.prefetch_related('actores')
 
-    new_array_datos = list(map(lambda x : x["fields"], json.loads(datos)))
+    try:
+        pelis = list(map(lambda x : x.to_api_obj(), peliculas))
+        error = False
+    except Exception as e:
+        pelis = []
+        error = True
+    return JsonResponse({"data":pelis, "err":error}, safe=False)
 
-    return JsonResponse(new_array_datos, safe=False)
+def actores(request):
+    actores = Actor.objects.all()
 
-def p2(request):
-    data = serializers.serialize("json", Pelicula.objects.all())
-    return HttpResponse(data, content_type='application/json')
+    try:
+        json_actores = list(map(lambda x : x.to_api_obj(), actores))
+        error = False
+    except Exception as e:
+        json_actores = []
+        error = True
+    return JsonResponse({"data":json_actores, "err":error}, safe=False)
