@@ -23,3 +23,15 @@ def actores(request):
         json_actores = []
         error = True
     return JsonResponse({"data":json_actores, "err":error}, safe=False)
+
+def actorId(request, actor_id):
+    actor = Actor.objects.all().filter(id = actor_id).all()
+    print(actor)
+
+    try:
+        json_actor = list(map(lambda x : x.to_api_obj(), actor))
+        error = False
+    except Exception as e:
+        json_actor = []
+        error =True
+    return JsonResponse({"data":json_actor, "err":error}, safe=False)
