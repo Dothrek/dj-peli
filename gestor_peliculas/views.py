@@ -26,7 +26,6 @@ def actores(request):
 
 def actorId(request, actor_id):
     actor = Actor.objects.all().filter(id = actor_id).all()
-    print(actor)
 
     try:
         json_actor = list(map(lambda x : x.to_api_obj(), actor))
